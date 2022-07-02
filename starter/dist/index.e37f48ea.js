@@ -2296,8 +2296,7 @@ parcelHelpers.defineInteropFlag(exports);
 var _iconsSvg = require("url:../../../src/img/icons.svg"); //parcel 2
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 var _fractional = require("fractional");
-var _fractionalDefault = parcelHelpers.interopDefault(_fractional);
-console.log((0, _fractionalDefault.default));
+console.log((0, _fractional.Fraction));
 class RecipeView {
     #parentElement = document.querySelector(".recipe");
     #data;
@@ -2373,21 +2372,7 @@ class RecipeView {
         <div class="recipe__ingredients">
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
-          ${this.#data.ingredients.map((ing)=>{
-            return `<li class="recipe__ingredient">
-              <svg class="recipe__icon">
-                <use href="${0, _iconsSvgDefault.default}#icon-check"></use>
-              </svg>
-              <div class="recipe__quantity">${ing.quantity}</div>
-              <div class="recipe__description">
-                <span class="recipe__unit">${ing.unit}</span>
-                ${ing.description}
-              </div>
-            </li>`;
-        }).join("")}
-            
-
-          
+          ${this.#data.ingredients.map(this.#generateMarkupIngredient).join("")}
           </ul>
         </div>
 
@@ -2409,6 +2394,20 @@ class RecipeView {
             </svg>
           </a>
         </div>
+        `;
+    }
+     #generateMarkupIngredient(ing) {
+        return `
+            <li class="recipe__ingredient">
+              <svg class="recipe__icon">
+                <use href="${0, _iconsSvgDefault.default}#icon-check"></use>
+              </svg>
+              <div class="recipe__quantity">${ing.quantity ? new (0, _fractional.Fraction)(ing.quantity).toString() : ""}</div>
+              <div class="recipe__description">
+                <span class="recipe__unit">${ing.unit}</span>
+                ${ing.description}
+              </div>
+            </li>
         `;
     }
 }
